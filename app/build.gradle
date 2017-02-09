@@ -1,0 +1,75 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion "24.0.3"
+
+
+
+    defaultConfig {
+        applicationId "com.example.hong3.testproject"
+        minSdkVersion 21
+        targetSdkVersion 24
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            moduleName "myNativeLib"
+            ldLibs "log", "z", "m"
+            abiFilters "armeabi", "armeabi-v7a", "x86"
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+
+    }
+
+
+
+    productFlavors {
+        x86 {
+            versionCode Integer.parseInt("6" + defaultConfig.versionCode)
+            ndk {
+                abiFilter "x86"
+            }
+        }
+        mips {
+            versionCode Integer.parseInt("4" + defaultConfig.versionCode)
+            ndk {
+                abiFilter "mips"
+            }
+        }
+        armv7 {
+            versionCode Integer.parseInt("2" + defaultConfig.versionCode)
+            ndk {
+                abiFilter "armeabi-v7a"
+            }
+        }
+        arm {
+            versionCode Integer.parseInt("1" + defaultConfig.versionCode)
+            ndk {
+                abiFilters "armeabi", "armeabi-v7a"
+            }
+        }
+        fat
+    }
+
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    //以下SDK开发者请根据需要自行选择
+    //bmob-sdk：Bmob的android sdk包，包含了Bmob的数据存储、文件等服务，以下是最新的bmob-sdk:
+    //3.5.0：请务必查看下面注释[1]
+    compile 'cn.bmob.android:bmob-sdk:3.5.0'
+
+
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    testCompile 'junit:junit:4.12'
+}
